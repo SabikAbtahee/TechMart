@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="TechMart.Business/TechMart.Business.csproj" />
+  <Project Path="TechMart.DataAccess/TechMart.DataAccess.csproj" />
+  <Project Path="TechMart.Domain/TechMart.Domain.csproj" />
+  <Project Path="TechMart.Presentation/TechMart.Presentation.csproj" />
+  <Project Path="TechMart/TechMart.csproj" />
+</Solution>
