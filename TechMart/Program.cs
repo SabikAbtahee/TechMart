@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using TechMart.DataAccess.Data;
+
 namespace TechMart
 {
     public class Program
@@ -8,6 +11,8 @@ namespace TechMart
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddDbContext<TechMartDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             var app = builder.Build();
 
