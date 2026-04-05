@@ -4,10 +4,8 @@ using System.Text;
 
 namespace TechMart.Domain.Entities
 {
-    public class CartItem
+    public class CartItem : BaseEntity
     {
-        public int Id { get; set; }
-
         public int ProductId { get; set; }
 
         public int Quantity{ get; set; }

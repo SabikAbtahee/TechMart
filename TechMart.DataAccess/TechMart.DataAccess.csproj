@@ -19,9 +19,4 @@
     <ProjectReference Include="..\TechMart.Domain\TechMart.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Modules\Orders\" />
-    <Folder Include="Modules\Products\" />
-  </ItemGroup>
-
 </Project>

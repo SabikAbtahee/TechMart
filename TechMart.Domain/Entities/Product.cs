@@ -5,9 +5,8 @@ using System.Text;
 
 namespace TechMart.Domain.Entities
 {
-    public class Product
+    public class Product : BaseEntity
     {
-        public int Id { get; set; }
 
         [Required(ErrorMessage = "Product Name is required")]
         [StringLength(100)]

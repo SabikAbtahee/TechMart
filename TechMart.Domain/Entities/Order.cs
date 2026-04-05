@@ -4,9 +4,8 @@ using System.Text;
 
 namespace TechMart.Domain.Entities
 {
-    public class Order
+    public class Order : BaseEntity
     {
-        public int Id { get; set; }
 
         public DateTime OrderDate { get; set; }
 
@@ -15,5 +14,8 @@ namespace TechMart.Domain.Entities
         public string ShippingAddress { get; set; }
 
         public string Status { get; set; }
+
+        public ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
+
     }
 }
