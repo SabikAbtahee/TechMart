@@ -8,20 +8,20 @@ namespace TechMart.Domain.Entities
     public class Product : BaseEntity
     {
 
-        [Required(ErrorMessage = "Product Name is required")]
-        [StringLength(100)]
+        [Required]
+        [StringLength(100, MinimumLength = 3)]
         public string Name { get; set; }
 
         [Required]
-        [StringLength(500, MinimumLength = 10, ErrorMessage = "Product needs a description between 10 to 500 characters")]
+        [StringLength(500, MinimumLength = 10)]
         public string Description { get; set; }
 
         [Required]
-        [Range(0, double.MaxValue, ErrorMessage = "Price must be a positive value")]
+        [Range(0, double.MaxValue)]
         public decimal Price { get; set; }
 
         [Required]
-        [Range(0, int.MaxValue, ErrorMessage = "Quantity must be a positive value")]
+        [Range(0, int.MaxValue)]
         public int StockQuantity { get; set; }
 
         public string? ImageUrl { get; set; }

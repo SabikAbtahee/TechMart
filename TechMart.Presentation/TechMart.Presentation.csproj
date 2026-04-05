@@ -7,12 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TechMart.Business\TechMart.Business.csproj" />
-    <ProjectReference Include="..\TechMart.Domain\TechMart.Domain.csproj" />
+    <PackageReference Include="AutoMapper" Version="16.1.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Modules\" />
+    <ProjectReference Include="..\TechMart.Business\TechMart.Business.csproj" />
+    <ProjectReference Include="..\TechMart.Domain\TechMart.Domain.csproj" />
   </ItemGroup>
 
 </Project>

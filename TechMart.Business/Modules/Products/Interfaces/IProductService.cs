@@ -3,20 +3,18 @@ using System.Collections.Generic;
 using System.Text;
 using TechMart.Domain.Entities;
 
-namespace TechMart.DataAccess.Modules.Products.Interfaces
+namespace TechMart.Business.Modules.Products.Interfaces
 {
-    public interface IProductRepository
+    public interface IProductService
     {
-        Task<Product?> GetByIdAsync(int id);
-
         Task<IReadOnlyList<Product>> GetAllAsync();
+
+        Task<Product?> GetByIdAsync(int id);
 
         Task<Product> AddAsync(Product product);
 
         Task UpdateAsync(Product product);
 
-        Task<bool> DeleteAsync(Product product);
-
-
+        Task<bool> DeleteAsync(int id);
     }
 }

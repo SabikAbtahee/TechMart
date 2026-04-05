@@ -1,0 +1,16 @@
+﻿@model IReadOnlyList<TechMart.Presentation.Modules.Products.ViewModels.ProductListViewModel>
+@{
+    ViewData["Title"] = "Products";
+}
+<div class="text-center">
+    <h1 class="display-4">Products</h1>
+</div>
+
+<div>
+    @foreach(var item in Model)
+    {
+        <p>@item.Name</p>
+        <p>@item.Description</p>
+        <p>@item.Price</p>
+    }
+</div>

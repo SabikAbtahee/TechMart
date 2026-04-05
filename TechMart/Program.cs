@@ -1,5 +1,11 @@
 using Microsoft.EntityFrameworkCore;
+using TechMart.Business.Modules.Products;
+using TechMart.Business.Modules.Products.Interfaces;
 using TechMart.DataAccess.Data;
+using TechMart.DataAccess.Modules.Products;
+using TechMart.DataAccess.Modules.Products.Interfaces;
+using TechMart.Presentation.Modules.Products;
+using TechMart.Presentation.Modules.Products.Interfaces;
 
 namespace TechMart
 {
@@ -13,6 +19,13 @@ namespace TechMart
             builder.Services.AddControllersWithViews();
 
             builder.Services.AddDbContext<TechMartDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+            builder.Services.AddAutoMapper(cfg => { }, typeof(ProductMappingProfile).Assembly);
+
+            builder.Services.AddScoped<IProductViewModelProvider, ProductViewModelProvider>();
+            builder.Services.AddScoped<IProductService, ProductService>();
+            builder.Services.AddTransient<IProductRepository, ProductRepository>();
+
 
             var app = builder.Build();
 
@@ -32,7 +45,7 @@ namespace TechMart
             app.MapStaticAssets();
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}")
+                pattern: "{controller=Product}/{action=Index}/{id?}")
                 .WithStaticAssets();
 
             app.Run();
