@@ -44,12 +44,18 @@ namespace TechMart.DataAccess.Data
                 .ToTable("CartItem");
 
 
+            var seedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified);
             modelBuilder.Entity<Product>().HasData(
-                new Product { Id = 1, Name = "Laptop", Description = "Macbook", Price = 4999.99m, StockQuantity = 10, ImageUrl = "https://example.com/laptop.jpg" },
-                new Product { Id = 2, Name = "Smartphone", Description = "Iphone", Price = 999.99m, StockQuantity = 20, ImageUrl = "https://example.com/smartphone.jpg" },
-                new Product { Id = 3, Name = "Headphones", Description = "Airpod", Price = 199.99m, StockQuantity = 15, ImageUrl = "https://example.com/headphones.jpg" },
-                new Product { Id = 4, Name = "Smartwatch", Description = "Apple Watch", Price = 299.99m, StockQuantity = 12, ImageUrl = "https://example.com/smartwatch.jpg" },
-                new Product { Id = 5, Name = "Tablet", Description = "Ipad", Price = 1999.99m, StockQuantity = 18, ImageUrl = "https://example.com/tablet.jpg" }
+                new Product { Id = 1, Name = "NovaBook Pro 16\"", Description = "Thin aluminum ultrabook with all-day battery, 32GB RAM, and a vivid 16-inch display for work and creative apps.", Price = 1899.99m, StockQuantity = 24, ImageUrl = "https://picsum.photos/seed/techmart-novabook/640/400", CreatedDate = seedDate, UpdatedDate = seedDate },
+                new Product { Id = 2, Name = "PulsePhone X", Description = "Flagship smartphone with OLED 120Hz screen, 256GB storage, and a triple-lens camera for low-light photos.", Price = 899.99m, StockQuantity = 48, ImageUrl = "https://picsum.photos/seed/techmart-pulsephone/640/400", CreatedDate = seedDate, UpdatedDate = seedDate },
+                new Product { Id = 3, Name = "SonicBuds Elite", Description = "Wireless earbuds with hybrid active noise cancellation, transparency mode, and up to 30 hours with the charging case.", Price = 169.99m, StockQuantity = 95, ImageUrl = "https://picsum.photos/seed/techmart-sonicbuds/640/400", CreatedDate = seedDate, UpdatedDate = seedDate },
+                new Product { Id = 4, Name = "Atlas Watch Ultra", Description = "GPS smartwatch with heart-rate and SpO2 sensors, rugged case, and week-long battery in smart mode.", Price = 399.99m, StockQuantity = 32, ImageUrl = "https://picsum.photos/seed/techmart-atlaswatch/640/400", CreatedDate = seedDate, UpdatedDate = seedDate },
+                new Product { Id = 5, Name = "SlateTab Air 11\"", Description = "Lightweight 11-inch tablet with laminated display, optional stylus support, and stereo speakers for streaming.", Price = 579.99m, StockQuantity = 41, ImageUrl = "https://picsum.photos/seed/techmart-slatetab/640/400", CreatedDate = seedDate, UpdatedDate = seedDate },
+                new Product { Id = 6, Name = "VoltCharge GaN 100W", Description = "Compact GaN wall charger with three USB-C ports, intelligent power sharing, and foldable prongs for travel.", Price = 69.99m, StockQuantity = 140, ImageUrl = "https://picsum.photos/seed/techmart-voltcharge/640/400", CreatedDate = seedDate, UpdatedDate = seedDate },
+                new Product { Id = 7, Name = "Clarity 27\" 4K Monitor", Description = "27-inch 4K IPS monitor with HDR, slim bezels, and USB-C docking—ideal for design and hybrid office setups.", Price = 419.99m, StockQuantity = 18, ImageUrl = "https://picsum.photos/seed/techmart-clarity27/640/400", CreatedDate = seedDate, UpdatedDate = seedDate },
+                new Product { Id = 8, Name = "MechType Pro MK85", Description = "Hot-swappable mechanical keyboard with tactile switches, per-key RGB, and doubleshot PBT keycaps.", Price = 139.99m, StockQuantity = 67, ImageUrl = "https://picsum.photos/seed/techmart-mechtype/640/400", CreatedDate = seedDate, UpdatedDate = seedDate },
+                new Product { Id = 9, Name = "GlideMouse Ergo+", Description = "Ergonomic vertical wireless mouse with silent clicks, multi-device pairing, and a comfortable rubber grip.", Price = 54.99m, StockQuantity = 88, ImageUrl = null, CreatedDate = seedDate, UpdatedDate = seedDate },
+                new Product { Id = 10, Name = "VaultDrive Portable 2TB", Description = "Pocket-size USB-C SSD rated for fast transfers, shock resistance, and hardware encryption for sensitive files.", Price = 209.99m, StockQuantity = 36, ImageUrl = null, CreatedDate = seedDate, UpdatedDate = seedDate }
                 );
         }
 

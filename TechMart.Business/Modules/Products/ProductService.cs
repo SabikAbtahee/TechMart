@@ -19,8 +19,8 @@ namespace TechMart.Business.Modules.Products
 
         public async Task<Product> AddAsync(Product product)
         {
-            product.CreatedDate = DateTime.Now;
-            product.UpdatedDate = DateTime.Now;
+            product.CreatedDate = DateTime.UtcNow;
+            product.UpdatedDate = DateTime.UtcNow;
             return await _productRepository.AddAsync(product);
         }
 
@@ -45,7 +45,7 @@ namespace TechMart.Business.Modules.Products
 
         public async Task UpdateAsync(Product product)
         {
-            product.UpdatedDate = DateTime.Now;
+            product.UpdatedDate = DateTime.UtcNow;
 
             await _productRepository.UpdateAsync(product);
         }

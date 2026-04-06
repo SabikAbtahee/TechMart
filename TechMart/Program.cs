@@ -6,6 +6,8 @@ using TechMart.DataAccess.Modules.Products;
 using TechMart.DataAccess.Modules.Products.Interfaces;
 using TechMart.Presentation.Modules.Products;
 using TechMart.Presentation.Modules.Products.Interfaces;
+using TechMart.Presentation.Modules.Shared.Interfaces;
+using TechMart.Presentation.Modules.Shared.Services;
 
 namespace TechMart
 {
@@ -25,6 +27,9 @@ namespace TechMart
             builder.Services.AddScoped<IProductViewModelProvider, ProductViewModelProvider>();
             builder.Services.AddScoped<IProductService, ProductService>();
             builder.Services.AddTransient<IProductRepository, ProductRepository>();
+            
+            // Shared services
+            builder.Services.AddScoped<IFileStorageService, FileStorageService>();
 
 
             var app = builder.Build();
