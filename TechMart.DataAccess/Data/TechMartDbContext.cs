@@ -37,8 +37,35 @@ namespace TechMart.DataAccess.Data
 
             modelBuilder.Entity<Order>()
                 .ToTable("Order")
+                .Property(p => p.SubTotal)
+                .HasPrecision(18, 4);
+
+            modelBuilder.Entity<Order>()
+                .Property(p => p.TaxAmount)
+                .HasPrecision(18, 4);
+
+            modelBuilder.Entity<Order>()
+                .Property(p => p.ShippingAmount)
+                .HasPrecision(18, 4);
+
+            modelBuilder.Entity<Order>()
                 .Property(p => p.TotalAmount)
                 .HasPrecision(18, 4);
+
+            modelBuilder.Entity<Order>()
+                .HasIndex(o => o.CartSessionId);
+
+            modelBuilder.Entity<OrderItem>()
+                .HasOne(oi => oi.Order)
+                .WithMany(o => o.OrderItems)
+                .HasForeignKey(oi => oi.OrderId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<OrderItem>()
+                .HasOne(oi => oi.Product)
+                .WithMany()
+                .HasForeignKey(oi => oi.ProductId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<CartItem>()
                 .ToTable("CartItem")

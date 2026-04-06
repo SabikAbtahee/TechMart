@@ -1,6 +1,6 @@
 @model TechMart.Presentation.Modules.Products.ViewModels.ProductEditViewModel
 @{
-    ViewData["Title"] = "Delete Product";
+    ViewData["Title"] = "Delete product";
 }
 
 <div class="container mt-4">
@@ -8,16 +8,16 @@
         <div class="col-md-8 mx-auto">
             <div class="card shadow border-danger">
                 <div class="card-header bg-danger text-white">
-                    <h2 class="mb-0">Delete Product</h2>
+                    <h2 class="mb-0">Delete product</h2>
                 </div>
                 <div class="card-body">
                     <div class="alert alert-warning" role="alert">
                         <i class="bi bi-exclamation-triangle-fill"></i>
-                        <strong>Warning!</strong> Are you sure you want to delete this product? This action cannot be undone.
+                        <strong>Warning!</strong> This cannot be undone.
                     </div>
 
                     <dl class="row">
-                        <dt class="col-sm-3">Product Name</dt>
+                        <dt class="col-sm-3">Name</dt>
                         <dd class="col-sm-9">@Model.Name</dd>
 
                         <dt class="col-sm-3">Description</dt>
@@ -26,7 +26,7 @@
                         <dt class="col-sm-3">Price</dt>
                         <dd class="col-sm-9">$@Model.Price.ToString("N2")</dd>
 
-                        <dt class="col-sm-3">Stock Quantity</dt>
+                        <dt class="col-sm-3">Stock</dt>
                         <dd class="col-sm-9">@Model.StockQuantity</dd>
 
                         @if (!string.IsNullOrEmpty(Model.ImageUrl))
@@ -38,14 +38,14 @@
                         }
                     </dl>
 
-                    <form asp-action="Delete" method="post">
+                    <form asp-area="Admin" asp-controller="Product" asp-action="Delete" asp-route-id="@Model.Id" method="post">
                         <input type="hidden" asp-for="Id" />
                         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                             <a asp-action="Index" class="btn btn-secondary">
-                                <i class="bi bi-arrow-left"></i> No, Go Back
+                                <i class="bi bi-arrow-left"></i> Cancel
                             </a>
                             <button type="submit" class="btn btn-danger">
-                                <i class="bi bi-trash"></i> Yes, Delete Product
+                                <i class="bi bi-trash"></i> Delete
                             </button>
                         </div>
                     </form>

@@ -18,7 +18,6 @@ namespace TechMart.Presentation.Modules.Products.ViewModels
         public string Description { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Price is required")]
-        [Range(0, double.MaxValue, ErrorMessage = "Price must be zero or greater")]
         [Display(Name = "Price")]
         public decimal Price { get; set; }
 

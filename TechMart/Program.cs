@@ -1,16 +1,26 @@
 using Microsoft.EntityFrameworkCore;
 using TechMart.Business.Modules.Cart;
 using TechMart.Business.Modules.Cart.Interfaces;
+using TechMart.Business.Modules.Checkout;
+using TechMart.Business.Modules.Checkout.Interfaces;
+using TechMart.Business.Modules.Orders;
+using TechMart.Business.Modules.Orders.Interfaces;
 using TechMart.Business.Modules.Products;
 using TechMart.Business.Modules.Products.Interfaces;
 using TechMart.DataAccess.Data;
 using TechMart.DataAccess.Modules.Cart;
 using TechMart.DataAccess.Modules.Cart.Interfaces;
+using TechMart.DataAccess.Modules.Orders;
+using TechMart.DataAccess.Modules.Orders.Interfaces;
 using TechMart.DataAccess.Modules.Products;
 using TechMart.DataAccess.Modules.Products.Interfaces;
 using TechMart.Middleware;
 using TechMart.Presentation.Modules.Cart;
 using TechMart.Presentation.Modules.Cart.Interfaces;
+using TechMart.Presentation.Modules.Checkout;
+using TechMart.Presentation.Modules.Checkout.Interfaces;
+using TechMart.Presentation.Modules.Orders;
+using TechMart.Presentation.Modules.Orders.Interfaces;
 using TechMart.Presentation.Modules.Products;
 using TechMart.Presentation.Modules.Products.Interfaces;
 using TechMart.Presentation.Modules.Shared.Interfaces;
@@ -49,6 +59,14 @@ namespace TechMart
             builder.Services.AddScoped<ICartSessionIdProvider, CartSessionIdProvider>();
             builder.Services.AddScoped<ICartViewModelProvider, CartViewModelProvider>();
 
+            builder.Services.Configure<CheckoutOptions>(builder.Configuration.GetSection(CheckoutOptions.SectionName));
+            builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+            builder.Services.AddScoped<ICheckoutService, CheckoutService>();
+            builder.Services.AddScoped<ICheckoutViewModelProvider, CheckoutViewModelProvider>();
+
+            builder.Services.AddScoped<IOrderService, OrderService>();
+            builder.Services.AddScoped<IOrderViewModelProvider, OrderViewModelProvider>();
+
             // Shared services
             builder.Services.AddScoped<IFileStorageService, FileStorageService>();
 
@@ -72,6 +90,10 @@ namespace TechMart
             app.UseAuthorization();
 
             app.MapStaticAssets();
+            app.MapControllerRoute(
+                name: "areas",
+                pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}")
+                .WithStaticAssets();
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Product}/{action=Index}/{id?}")
