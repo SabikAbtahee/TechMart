@@ -1,0 +1,52 @@
+@model TechMart.Presentation.Modules.Cart.ViewModels.CartPageViewModel
+@{
+    ViewData["Title"] = "Cart";
+}
+
+<div class="container mt-4">
+    <h1 class="display-6 mb-3">Shopping cart</h1>
+    <p class="text-muted">Phase 1: view lines and totals. Quantity changes from product pages.</p>
+
+    @if (Model.Lines.Count == 0)
+    {
+        <div class="alert alert-info">Your cart is empty.</div>
+        <a asp-controller="Product" asp-action="Index" class="btn btn-primary">Browse products</a>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table align-middle">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Product</th>
+                        <th class="text-end">Price</th>
+                        <th class="text-center">Qty</th>
+                        <th class="text-end">Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var line in Model.Lines)
+                    {
+                        <tr>
+                            <td style="width: 72px;">
+                                @if (!string.IsNullOrEmpty(line.ImageUrl))
+                                {
+                                    <img src="@line.ImageUrl" alt="" class="img-fluid rounded" style="max-height: 56px; object-fit: cover;" />
+                                }
+                            </td>
+                            <td>@line.ProductName</td>
+                            <td class="text-end">$@line.UnitPrice.ToString("N2")</td>
+                            <td class="text-center">@line.Quantity</td>
+                            <td class="text-end">$@line.LineSubtotal.ToString("N2")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="d-flex justify-content-between align-items-center">
+            <span class="text-muted">@Model.TotalUnits item(s)</span>
+            <strong class="fs-5">Total: $@Model.Subtotal.ToString("N2")</strong>
+        </div>
+    }
+</div>

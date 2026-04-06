@@ -41,7 +41,15 @@ namespace TechMart.DataAccess.Data
                 .HasPrecision(18, 4);
 
             modelBuilder.Entity<CartItem>()
-                .ToTable("CartItem");
+                .ToTable("CartItem")
+                .HasIndex(c => new { c.CartSessionId, c.ProductId })
+                .IsUnique();
+
+            modelBuilder.Entity<CartItem>()
+                .HasOne<Product>()
+                .WithMany()
+                .HasForeignKey(c => c.ProductId)
+                .OnDelete(DeleteBehavior.Restrict);
 
 
             var seedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified);

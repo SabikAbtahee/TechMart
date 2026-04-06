@@ -8,8 +8,9 @@ namespace TechMart.Domain.Entities
     {
         public int ProductId { get; set; }
 
-        public int Quantity{ get; set; }
+        public int Quantity { get; set; }
 
-        public int UserId { get; set; }
+        /// <summary>Anonymous cart key stored in session (GUID).</summary>
+        public string CartSessionId { get; set; } = string.Empty;
     }
 }
