@@ -30,6 +30,10 @@ namespace TechMart.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("CartSessionId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
@@ -42,10 +46,12 @@ namespace TechMart.DataAccess.Migrations
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("CartSessionId", "ProductId")
+                        .IsUnique();
 
                     b.ToTable("CartItem", (string)null);
                 });
@@ -58,19 +64,47 @@ namespace TechMart.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("CartSessionId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("CustomerName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ShippingAddress")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<decimal>("ShippingAmount")
+                        .HasPrecision(18, 4)
+                        .HasColumnType("decimal(18,4)");
+
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("SubTotal")
+                        .HasPrecision(18, 4)
+                        .HasColumnType("decimal(18,4)");
+
+                    b.Property<decimal>("TaxAmount")
+                        .HasPrecision(18, 4)
+                        .HasColumnType("decimal(18,4)");
 
                     b.Property<decimal>("TotalAmount")
                         .HasPrecision(18, 4)
@@ -80,6 +114,8 @@ namespace TechMart.DataAccess.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CartSessionId");
 
                     b.ToTable("Order", (string)null);
                 });
@@ -114,6 +150,8 @@ namespace TechMart.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("OrderId");
+
+                    b.HasIndex("ProductId");
 
                     b.ToTable("OrderItem", (string)null);
                 });
@@ -161,66 +199,138 @@ namespace TechMart.DataAccess.Migrations
                         {
                             Id = 1,
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Macbook",
-                            ImageUrl = "https://example.com/laptop.jpg",
-                            Name = "Laptop",
-                            Price = 4999.99m,
-                            StockQuantity = 10,
+                            Description = "Thin aluminum ultrabook with all-day battery, 32GB RAM, and a vivid 16-inch display for work and creative apps.",
+                            ImageUrl = "https://picsum.photos/seed/techmart-novabook/640/400",
+                            Name = "NovaBook Pro 16\"",
+                            Price = 1899.99m,
+                            StockQuantity = 24,
                             UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = 2,
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Iphone",
-                            ImageUrl = "https://example.com/smartphone.jpg",
-                            Name = "Smartphone",
-                            Price = 999.99m,
-                            StockQuantity = 20,
+                            Description = "Flagship smartphone with OLED 120Hz screen, 256GB storage, and a triple-lens camera for low-light photos.",
+                            ImageUrl = "https://picsum.photos/seed/techmart-pulsephone/640/400",
+                            Name = "PulsePhone X",
+                            Price = 899.99m,
+                            StockQuantity = 48,
                             UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = 3,
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Airpod",
-                            ImageUrl = "https://example.com/headphones.jpg",
-                            Name = "Headphones",
-                            Price = 199.99m,
-                            StockQuantity = 15,
+                            Description = "Wireless earbuds with hybrid active noise cancellation, transparency mode, and up to 30 hours with the charging case.",
+                            ImageUrl = "https://picsum.photos/seed/techmart-sonicbuds/640/400",
+                            Name = "SonicBuds Elite",
+                            Price = 169.99m,
+                            StockQuantity = 95,
                             UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = 4,
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Apple Watch",
-                            ImageUrl = "https://example.com/smartwatch.jpg",
-                            Name = "Smartwatch",
-                            Price = 299.99m,
-                            StockQuantity = 12,
+                            Description = "GPS smartwatch with heart-rate and SpO2 sensors, rugged case, and week-long battery in smart mode.",
+                            ImageUrl = "https://picsum.photos/seed/techmart-atlaswatch/640/400",
+                            Name = "Atlas Watch Ultra",
+                            Price = 399.99m,
+                            StockQuantity = 32,
                             UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = 5,
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Ipad",
-                            ImageUrl = "https://example.com/tablet.jpg",
-                            Name = "Tablet",
-                            Price = 1999.99m,
+                            Description = "Lightweight 11-inch tablet with laminated display, optional stylus support, and stereo speakers for streaming.",
+                            ImageUrl = "https://picsum.photos/seed/techmart-slatetab/640/400",
+                            Name = "SlateTab Air 11\"",
+                            Price = 579.99m,
+                            StockQuantity = 41,
+                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Compact GaN wall charger with three USB-C ports, intelligent power sharing, and foldable prongs for travel.",
+                            ImageUrl = "https://picsum.photos/seed/techmart-voltcharge/640/400",
+                            Name = "VoltCharge GaN 100W",
+                            Price = 69.99m,
+                            StockQuantity = 140,
+                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "27-inch 4K IPS monitor with HDR, slim bezels, and USB-C docking—ideal for design and hybrid office setups.",
+                            ImageUrl = "https://picsum.photos/seed/techmart-clarity27/640/400",
+                            Name = "Clarity 27\" 4K Monitor",
+                            Price = 419.99m,
                             StockQuantity = 18,
+                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 8,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Hot-swappable mechanical keyboard with tactile switches, per-key RGB, and doubleshot PBT keycaps.",
+                            ImageUrl = "https://picsum.photos/seed/techmart-mechtype/640/400",
+                            Name = "MechType Pro MK85",
+                            Price = 139.99m,
+                            StockQuantity = 67,
+                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 9,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Ergonomic vertical wireless mouse with silent clicks, multi-device pairing, and a comfortable rubber grip.",
+                            Name = "GlideMouse Ergo+",
+                            Price = 54.99m,
+                            StockQuantity = 88,
+                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 10,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Pocket-size USB-C SSD rated for fast transfers, shock resistance, and hardware encryption for sensitive files.",
+                            Name = "VaultDrive Portable 2TB",
+                            Price = 209.99m,
+                            StockQuantity = 36,
                             UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
 
+            modelBuilder.Entity("TechMart.Domain.Entities.CartItem", b =>
+                {
+                    b.HasOne("TechMart.Domain.Entities.Product", null)
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("TechMart.Domain.Entities.OrderItem", b =>
                 {
-                    b.HasOne("TechMart.Domain.Entities.Order", null)
+                    b.HasOne("TechMart.Domain.Entities.Order", "Order")
                         .WithMany("OrderItems")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("TechMart.Domain.Entities.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("TechMart.Domain.Entities.Order", b =>
