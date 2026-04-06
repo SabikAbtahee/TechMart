@@ -11,4 +11,10 @@ public interface ICartViewModelProvider
     Task IncrementAsync(int productId, CancellationToken cancellationToken = default);
 
     Task DecrementAsync(int productId, CancellationToken cancellationToken = default);
+
+    Task UpdateLineAsync(int productId, int quantity, CancellationToken cancellationToken = default);
+
+    Task RemoveLineAsync(int productId, CancellationToken cancellationToken = default);
+
+    Task ClearCartAsync(CancellationToken cancellationToken = default);
 }

@@ -97,6 +97,46 @@ public class CartService : ICartService
         await _cartRepository.UpdateAsync(existing, cancellationToken);
     }
 
+    public async Task SetQuantityAsync(string cartSessionId, int productId, int quantity, CancellationToken cancellationToken = default)
+    {
+        var existing = await _cartRepository.GetTrackedBySessionAndProductAsync(cartSessionId, productId, cancellationToken);
+        if (existing == null)
+            return;
+
+        if (quantity <= 0)
+        {
+            await _cartRepository.RemoveAsync(existing, cancellationToken);
+            return;
+        }
+
+        var product = await _productRepository.GetByIdAsync(productId);
+        if (product == null || product.StockQuantity < 1)
+        {
+            await _cartRepository.RemoveAsync(existing, cancellationToken);
+            return;
+        }
+
+        var next = Math.Min(quantity, product.StockQuantity);
+        var now = DateTime.UtcNow;
+        existing.Quantity = next;
+        existing.UpdatedDate = now;
+        await _cartRepository.UpdateAsync(existing, cancellationToken);
+    }
+
+    public async Task RemoveLineAsync(string cartSessionId, int productId, CancellationToken cancellationToken = default)
+    {
+        var existing = await _cartRepository.GetTrackedBySessionAndProductAsync(cartSessionId, productId, cancellationToken);
+        if (existing == null)
+            return;
+
+        await _cartRepository.RemoveAsync(existing, cancellationToken);
+    }
+
+    public async Task ClearAsync(string cartSessionId, CancellationToken cancellationToken = default)
+    {
+        await _cartRepository.ClearBySessionIdAsync(cartSessionId, cancellationToken);
+    }
+
     public decimal GetSubtotal(IReadOnlyList<CartItem> items, IReadOnlyDictionary<int, decimal> unitPriceByProductId)
     {
         decimal sum = 0;

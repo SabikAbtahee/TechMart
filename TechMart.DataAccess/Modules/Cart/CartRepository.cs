@@ -46,4 +46,17 @@ public class CartRepository : ICartRepository
         _dbContext.CartItems.Remove(item);
         await _dbContext.SaveChangesAsync(cancellationToken);
     }
+
+    public async Task ClearBySessionIdAsync(string cartSessionId, CancellationToken cancellationToken = default)
+    {
+        var items = await _dbContext.CartItems
+            .Where(c => c.CartSessionId == cartSessionId)
+            .ToListAsync(cancellationToken);
+
+        if (items.Count == 0)
+            return;
+
+        _dbContext.CartItems.RemoveRange(items);
+        await _dbContext.SaveChangesAsync(cancellationToken);
+    }
 }

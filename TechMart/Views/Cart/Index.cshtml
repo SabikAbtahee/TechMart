@@ -1,13 +1,13 @@
 @model TechMart.Presentation.Modules.Cart.ViewModels.CartPageViewModel
 @{
     ViewData["Title"] = "Cart";
+    var hasLines = Model.Lines.Count > 0;
 }
 
 <div class="container mt-4">
     <h1 class="display-6 mb-3">Shopping cart</h1>
-    <p class="text-muted">Phase 1: view lines and totals. Quantity changes from product pages.</p>
 
-    @if (Model.Lines.Count == 0)
+    @if (!hasLines)
     {
         <div class="alert alert-info">Your cart is empty.</div>
         <a asp-controller="Product" asp-action="Index" class="btn btn-primary">Browse products</a>
@@ -23,6 +23,7 @@
                         <th class="text-end">Price</th>
                         <th class="text-center">Qty</th>
                         <th class="text-end">Subtotal</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -37,16 +38,53 @@
                             </td>
                             <td>@line.ProductName</td>
                             <td class="text-end">$@line.UnitPrice.ToString("N2")</td>
-                            <td class="text-center">@line.Quantity</td>
+                            <td>
+                                <form asp-action="Update" method="post" class="d-flex flex-wrap align-items-center justify-content-center gap-1">
+                                    <input type="hidden" name="productId" value="@line.ProductId" />
+                                    <input type="number"
+                                           name="quantity"
+                                           class="form-control form-control-sm"
+                                           style="width: 5rem;"
+                                           min="0"
+                                           max="@line.StockQuantity"
+                                           value="@line.Quantity"
+                                           aria-label="Quantity for @line.ProductName" />
+                                    <button type="submit" class="btn btn-sm btn-outline-primary">Update</button>
+                                </form>
+                            </td>
                             <td class="text-end">$@line.LineSubtotal.ToString("N2")</td>
+                            <td class="text-end">
+                                <form asp-action="Remove" method="post" class="d-inline">
+                                    <input type="hidden" name="productId" value="@line.ProductId" />
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">Remove</button>
+                                </form>
+                            </td>
                         </tr>
                     }
                 </tbody>
             </table>
         </div>
-        <div class="d-flex justify-content-between align-items-center">
-            <span class="text-muted">@Model.TotalUnits item(s)</span>
-            <strong class="fs-5">Total: $@Model.Subtotal.ToString("N2")</strong>
+
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3 mt-3">
+            <form asp-action="Clear" method="post">
+                <button type="submit" class="btn btn-outline-secondary">Clear cart</button>
+            </form>
+            <div class="text-md-end ms-md-auto">
+                <span class="text-muted d-block">@Model.TotalUnits item(s)</span>
+                <strong class="fs-5">Subtotal: $@Model.Subtotal.ToString("N2")</strong>
+            </div>
+        </div>
+
+        <div class="mt-4 d-flex flex-wrap gap-2">
+            <a asp-controller="Product" asp-action="Index" class="btn btn-outline-primary">Continue shopping</a>
+            <a asp-controller="Checkout" asp-action="Index" class="btn btn-primary">Checkout</a>
+        </div>
+    }
+
+    @if (!hasLines)
+    {
+        <div class="mt-4">
+            <button type="button" class="btn btn-primary" disabled>Checkout</button>
         </div>
     }
 </div>

@@ -39,6 +39,24 @@ public class CartViewModelProvider : ICartViewModelProvider
         await _cartService.DecrementAsync(sessionId, productId, cancellationToken);
     }
 
+    public async Task UpdateLineAsync(int productId, int quantity, CancellationToken cancellationToken = default)
+    {
+        var sessionId = _cartSessionIdProvider.GetCartSessionId();
+        await _cartService.SetQuantityAsync(sessionId, productId, quantity, cancellationToken);
+    }
+
+    public async Task RemoveLineAsync(int productId, CancellationToken cancellationToken = default)
+    {
+        var sessionId = _cartSessionIdProvider.GetCartSessionId();
+        await _cartService.RemoveLineAsync(sessionId, productId, cancellationToken);
+    }
+
+    public async Task ClearCartAsync(CancellationToken cancellationToken = default)
+    {
+        var sessionId = _cartSessionIdProvider.GetCartSessionId();
+        await _cartService.ClearAsync(sessionId, cancellationToken);
+    }
+
     public async Task<CartPageViewModel> GetCartPageAsync(CancellationToken cancellationToken = default)
     {
         var sessionId = _cartSessionIdProvider.GetCartSessionId();
@@ -59,7 +77,8 @@ public class CartViewModelProvider : ICartViewModelProvider
                 ProductName = product.Name,
                 ImageUrl = product.ImageUrl,
                 UnitPrice = product.Price,
-                Quantity = line.Quantity
+                Quantity = line.Quantity,
+                StockQuantity = product.StockQuantity
             });
         }
 

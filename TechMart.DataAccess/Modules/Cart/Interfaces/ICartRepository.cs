@@ -13,4 +13,6 @@ public interface ICartRepository
     Task UpdateAsync(CartItem item, CancellationToken cancellationToken = default);
 
     Task RemoveAsync(CartItem item, CancellationToken cancellationToken = default);
+
+    Task ClearBySessionIdAsync(string cartSessionId, CancellationToken cancellationToken = default);
 }

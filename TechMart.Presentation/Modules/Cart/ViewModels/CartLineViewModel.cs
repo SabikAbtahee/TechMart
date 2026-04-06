@@ -14,5 +14,7 @@ public class CartLineViewModel
 
     public int Quantity { get; set; }
 
+    public int StockQuantity { get; set; }
+
     public decimal LineSubtotal => UnitPrice * Quantity;
 }

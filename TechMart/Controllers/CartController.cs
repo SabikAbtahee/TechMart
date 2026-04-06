@@ -26,7 +26,7 @@ public class CartController : Controller
             quantity = 1;
 
         await _cartViewModelProvider.AddAsync(productId, quantity, cancellationToken);
-        TempData["CartMessage"] = "Added to cart.";
+        TempData["SuccessMessage"] = "Added to cart.";
 
         if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
             return LocalRedirect(returnUrl);
@@ -39,7 +39,7 @@ public class CartController : Controller
     public async Task<IActionResult> Increment(int productId, string? returnUrl = null, CancellationToken cancellationToken = default)
     {
         await _cartViewModelProvider.IncrementAsync(productId, cancellationToken);
-        TempData["CartMessage"] = "Cart updated.";
+        TempData["SuccessMessage"] = "Cart updated.";
 
         if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
             return LocalRedirect(returnUrl);
@@ -52,11 +52,38 @@ public class CartController : Controller
     public async Task<IActionResult> Decrement(int productId, string? returnUrl = null, CancellationToken cancellationToken = default)
     {
         await _cartViewModelProvider.DecrementAsync(productId, cancellationToken);
-        TempData["CartMessage"] = "Cart updated.";
+        TempData["SuccessMessage"] = "Cart updated.";
 
         if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
             return LocalRedirect(returnUrl);
 
+        return RedirectToAction(nameof(Index));
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Update(int productId, int quantity, CancellationToken cancellationToken = default)
+    {
+        await _cartViewModelProvider.UpdateLineAsync(productId, quantity, cancellationToken);
+        TempData["SuccessMessage"] = "Cart updated.";
+        return RedirectToAction(nameof(Index));
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Remove(int productId, CancellationToken cancellationToken = default)
+    {
+        await _cartViewModelProvider.RemoveLineAsync(productId, cancellationToken);
+        TempData["SuccessMessage"] = "Item removed.";
+        return RedirectToAction(nameof(Index));
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Clear(CancellationToken cancellationToken = default)
+    {
+        await _cartViewModelProvider.ClearCartAsync(cancellationToken);
+        TempData["SuccessMessage"] = "Cart cleared.";
         return RedirectToAction(nameof(Index));
     }
 }
